@@ -47,14 +47,14 @@ def validate_data(values):
 
     return True
 
-def update_sales_worksheet(data):
+def update_worksheet(data , worksheet): 
     '''
-    Update sales worksheet , add new row with the list data povided. 
+    Recieve list of Int and update given sheet
     '''
-    print('Updating sales worksheet...\n')
-    sales_worksheet =SHEET.worksheet("sales")
-    sales_worksheet.append_row(data)
-    print("Sales worksheet updated successfully. \n")
+    print(f'Updating {worksheet} worksheet...\n')
+    worksheet_to_update = SHEET.worksheet(worksheet)
+    worksheet_to_update.append_row(data)
+    print(f"{worksheet} worksheet updated successfully. \n")
 
 
 def calculate_surplus_data(sales_row):
@@ -75,13 +75,15 @@ def calculate_surplus_data(sales_row):
         surplus_data.append(surplus)
     return surplus_data
 
-def update_surplus_worksheet(new_surplus_data):
-    '''
-    Update Surplus data with diff between stock - sales 
-    '''
-    surplus_worksheet = SHEET.worksheet('surplus')
-    surplus_worksheet.append_row(new_surplus_data)
-    print("Surplus worksheet updated successfully. \n")
+def get_last_5_entries_sales() : 
+    columbs = []
+    sales = SHEET.worksheet('sales')
+    for ind in range(1,7): 
+        columb = sales.col_values(ind)
+        last_5=columb[-6:]
+        columbs.append(last_5)
+    return columbs   
+    
 
 def main():
     '''
@@ -89,9 +91,10 @@ def main():
     '''
     data = get_sales_data()
     sales_data = [ int(num) for num in data]
-    update_sales_worksheet(sales_data)
+    update_worksheet(sales_data , "sales")
     new_surplus_data = calculate_surplus_data(sales_data)
-    update_surplus_worksheet(new_surplus_data)
+    update_worksheet(new_surplus_data , "surplus")
 
 print("Welcome to Love Sandwiches Data Automation")
-main()
+#main()
+sales_columbs = get_last_5_entries_sales()
