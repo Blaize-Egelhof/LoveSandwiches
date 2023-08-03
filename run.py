@@ -56,6 +56,18 @@ def update_worksheet(data , worksheet):
     worksheet_to_update.append_row(data)
     print(f"{worksheet} worksheet updated successfully. \n")
 
+def calculate_stock_data(data): 
+    print("Calculating stock data ... \n")
+    new_stock_data = []
+
+    for columbs in data : 
+        int_columb=[int(value) for value in columbs]
+        average = sum(int_columb) / len(int_columb)
+        stock_num =average *1.10
+        new_stock_data.append(round(stock_num))
+    return new_stock_data
+
+
 
 def calculate_surplus_data(sales_row):
     '''
@@ -94,7 +106,9 @@ def main():
     update_worksheet(sales_data , "sales")
     new_surplus_data = calculate_surplus_data(sales_data)
     update_worksheet(new_surplus_data , "surplus")
+    sales_columbs = get_last_5_entries_sales()
+    stock_data = calculate_stock_data(sales_columbs)
+    update_worksheet(stock_data , "stock")
 
 print("Welcome to Love Sandwiches Data Automation")
-#main()
-sales_columbs = get_last_5_entries_sales()
+main()
